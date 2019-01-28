@@ -11,11 +11,11 @@ public:
     int end,key;
 
     algorithm(){
-        cout<<"Enter the size of array to be sorted: "<<endl;
+        cout<<"Enter the size of array to be: "<<endl;
 
         //Size of array input here
         cin>>end;
-        cout<<"Enter the array line by line in descending order: "<<endl;
+        cout<<"Enter the array line by line in descending order prefrably: "<<endl;
 
         //Array input here
         for(int i=0; i<end; i++){
@@ -123,13 +123,12 @@ int main(){
 
     //Binary Search
     position_bin_search = array.binarySearch(array.key, array.end, 0);
-    cout<<"The number is found at position by Binary Search: "<<position_bin_search+1<<endl;
+    cout<<"The number is found at position "<<position_bin_search+1<<" by Binary Search"<<endl;
 
     //Linear Search
-    position_bin_search = array.binarySearch(array.key, array.end, 0);
-    cout<<"The number is found at position by Binary Search: "<<position_bin_search+1<<endl;
+    position_lin_search = array.linearSearch(array.key);
+    cout<<"The number is found at position "<<position_lin_search+1<<" by Linear Search"<<endl;
     
-    //Insertion-sort including characters
     
 
     //Sub-Part for timing of the Search Algorithms
