@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<regex>
 const int MAX = 5;
 using namespace std;
@@ -6,15 +7,15 @@ using namespace std;
 
 class stackSort{
 private:
-    int arr[MAX];
+    string arr[MAX];
     int top = -1;
 public:
     stackSort(){
-        cout<<"Enter only registeration number in the form 18BCExxxx"<<endl;
+        cout<<"Enter only registration number in the form 18BCExxxx"<<endl;
     }
 
     bool isEmpty(){
-        if(top==-1 || top >= MAX-1){return true;}
+        if(top == -1 || top<= MAX){return true;}
         return false;
     }
 
@@ -26,13 +27,14 @@ public:
 
     void push(string key){
         if (isEmpty() && isValid(key)){
-            top++;
-            arr[top] = stoi(key.substr(5));
-            insertionSort(top);
+            ++top;
+            arr[top] = key;
+            insertionSort(top+1);
             cout<<key<<" is pushed to stack successfully"<<endl;
+            cout<<"The size of stack is: "<<top+1<<endl;
         }
         else if(isValid(key)==false){cout<<"Enter Valid Reg Number please"<<endl;}
-        else{cout<<"Traceback Error: Stack Overflow"<<endl;}
+        if(top >= MAX-1){cout<<"Traceback Error: Stack Overflow"<<endl;}
     }
 
     bool isFull(){
@@ -42,9 +44,9 @@ public:
 
     string pop(){
         if(isFull()){
-            top--;
-            insertionSort(top);
-            return "18BCE"+ to_string(arr[top+1]);
+            --top;
+            insertionSort(top+1);
+            return arr[top+1];
         }
         else{return "\tTraceback Error: Stack Underflow";}
     }
@@ -58,14 +60,15 @@ public:
     
         insertionSort(n-1); 
     
-        char key = arr[n-1]; 
+        string key = arr[n-1].substr(arr[n-1].size() - 4);
+        string fullKey = arr[n-1]; 
         int j = n-2; 
     
-        while (j >= 0 && int(arr[j]) > int(key)){
+        while (j >= 0 && stoi(arr[j].substr(arr[j].size() - 4)) > stoi(key)){
             arr[j+1] = arr[j]; 
             j--; 
         } 
-        arr[j+1] = key; 
+        arr[j+1] = fullKey; 
     }
 
 };
