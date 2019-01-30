@@ -1,34 +1,38 @@
 #include<iostream>
+#include<regex>
 const int MAX = 5;
 using namespace std;
 
 
-class stack{
+class stackSort{
 private:
-    string arr[MAX];
+    int arr[MAX];
     int top = -1;
 public:
-    stack(){
+    stackSort(){
         cout<<"Enter only registeration number in the form 18BCExxxx"<<endl;
     }
 
     bool isEmpty(){
-        if(top==-1 || top != MAX){return true;}
+        if(top==-1 || top >= MAX-1){return true;}
         return false;
     }
 
     bool isValid(string key){
-        if(key[0]=='1' && key[1]=='8' && key[2]=='B' && key[3]=='C' && key[4]=='E' && key[5]){return true;}
+        regex regNo("18BCE[0-9]{4}");
+        if(regex_match(key.begin(), key.end(), regNo)){return true;}
         return false;
     }
+
     void push(string key){
         if (isEmpty() && isValid(key)){
             top++;
-            arr[top] = key;;
+            arr[top] = stoi(key.substr(5));
+            insertionSort(top);
+            cout<<key<<" is pushed to stack successfully"<<endl;
         }
-        else{
-            cout<<"Traceback Error: Stack Overflow"<<endl;
-        }
+        else if(isValid(key)==false){cout<<"Enter Valid Reg Number please"<<endl;}
+        else{cout<<"Traceback Error: Stack Overflow"<<endl;}
     }
 
     bool isFull(){
@@ -39,23 +43,53 @@ public:
     string pop(){
         if(isFull()){
             top--;
-            return arr[top+1];
+            insertionSort(top);
+            return "18BCE"+ to_string(arr[top+1]);
         }
-        else{
-            cout<<"Traceback Error: Stack Underflow"<<endl;
-            return "ERROR";
-        }
+        else{return "\tTraceback Error: Stack Underflow";}
     }
+
+    void insertionSort(int n){
+
+        //Sort the list in ascending order using recursion
+
+        if (n <= 1) 
+            return; 
+    
+        insertionSort(n-1); 
+    
+        char key = arr[n-1]; 
+        int j = n-2; 
+    
+        while (j >= 0 && int(arr[j]) > int(key)){
+            arr[j+1] = arr[j]; 
+            j--; 
+        } 
+        arr[j+1] = key; 
+    }
+
 };
 
 int main(){
-    stack p;
+    stackSort p;
     int check;
+    bool conti = true;
     string userInp;
-    cout<<"1 for Push() operation\n2 for Pop() operation"<<endl;
-    cin>>check;
 
-    switch(check){
-        case 1: {cout<<"Enter valid reg number: ";cin>>userInp;p.push(userInp);}
+    while(conti == true){
+
+        cout<<"1 for Push() operation\n2 for Pop() operation\n3 for END operation"<<endl;
+        cin>>check;
+
+        switch(check){
+            case 1: {cout<<"Enter valid reg number: ";cin>>userInp; p.push(userInp);}
+                break;
+            case 2: {cout<<"The Reg Number popped out is: "<<p.pop()<<endl;}
+                break;
+            case 3: conti = false;
+                break;
+            default: cout<<"Enter Valid Command"<<endl;
+                break;
+        }
     }
 }
